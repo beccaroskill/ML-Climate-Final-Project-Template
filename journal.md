@@ -5,8 +5,6 @@ I would like to use satellite imagery and weather data to predict wildfire occur
 
 ## My progress
 
-I would like to use satellite imagery and weather data to predict wildfire occurences.
-
 ### Sunday, February 20th
 
 I resumed my data collection efforts, in an attempt to acquire most (if not all) of the data utilized by Santopaolo et al. I found Google's Earth Engine to be the best tool for pulling Modis data like the fire masks, but I experienced a steep learning curve because the documentation is not great. I should be set in terms of surface reflectance (SR) data because I figured out how to pull down Sentinel2 data a few weeks ago, which is higher resolution than the Modis SR data used in Santopaolo et al. The time resolution is lower, though, so I may need to consider ways to combine the two sources. I also need to decide on a time range (prior to the fire) over which I should use data to make predictions. Santopaolo et al. use 8 days, but with Sentinel2's lower time resolution I may opt for a longer range. Next up, I need to pull down weather data!
