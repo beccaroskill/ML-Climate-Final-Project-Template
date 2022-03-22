@@ -5,6 +5,25 @@ I would like to use satellite imagery and weather data to predict wildfire occur
 
 ## My progress
 
+### Monday, March 21th
+
+The main question I'm considering now is how to acquire fire-negative imagery; what should I feed the model as fire-negative regions, against which correctly identifying fire-positive regions will actually be useful? Obviously, if I feed the model pictures of something completely random, say dogs, it's easy enough to distinguish these from fire-positive satellite imagery. But, more seriously, it also feels like cheating to feed the model totally random satellite imagery, when these regions and timestamps might be of no interest to those interested in wildfire risk (say, a highway in the winter).
+
+The intuition seems to be that I would like fire-negative cases to have a similar distribution of preconceived risk as the fire-positive cases. This way, the model will be doing something that existing models would fail to do - turn hazard potential into a more effective prediction. Therefore, the question I have narrowed my study down to is: **Can CNNs reliably predict wildfire occurences given 12-band images where wildfires *did* occur and corresponding 12-band images where wildfires *did not occur*, which were assigned a similar Wildfire Hazard Potential (WHP)?** The more refined a WHP metric I use to determine this distribution, the higher standard I am holding the model to (Does it "beat" these hazard potential models or simply replicate them using a new method?). 
+
+As a starting point, I will use the US Forest Service's Wildfire Hazard Potential for the United States (270-m) (https://doi.org/10.2737/RDS-2015-0047-3). The first step was to sample this data at each of the wildfire's points of occurence, to obtain a fire-positive WHP distribution. Next, I will decide which fire-negative points to obtain imagery for, such that these points have a similar WHP distribution. I suppose I will need to do something similar with other inherent risk factors, like temperature and time of year.
+
+
+### Wednesday, March 9th
+
+I have nearly completed the process of acquiring the training data I need, and I have made some modifications to my experimental design in the process. I'm having success with acquiring fire-positive imagery - this just entails pulling down imagery in the fire's region preceding the fire's occurence (although even this process has taken much longer than anticipated, because I keep coming across extremely time-consuming issues, like SentinelHub limiting the number of requests from my free account). 
+
+I'll outline the data I have succeeded in acquiring:
+- One image per fire
+- 200x200 pixel (about 4km x 4km) region around fire's location 
+- Cloud cover < 0.1
+- Latest-captured acceptable image in the range of 5-14 days prior to fire occurence
+
 ### 2022-03-07 check in: alp
 
 Looking good. Would encourage trying to get some initial results soon. Also please try to update this weekly.
