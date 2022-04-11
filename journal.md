@@ -3,7 +3,34 @@
 
 I would like to use satellite imagery and weather data to predict wildfire occurences.
 
+The inputs:
+- 12-band Sentinel L2A images, from Sentinel Hub
+
+The outputs:
+- Historic wildfire locations in the US, from WFIGS
+
+The model:
+- Approximately 10km x 10km images at 60m resolution across 12 bands, resized to 128 x 128 x 12 inputs
+- The network first performs convolution (64 kernels of size 3 x 3) on each input timestep of the data, which is the individual satellite images in the 3 months of historical satellite images. 
+- The representation obtained from the convolution layer, during each timestep, is passed to the Long Short Term Memory (LSTM) layer with 64 hidden units.
+- This is followed by dropout with a rate of 0.3 and three dense layers with 256, 32 and 1 hidden units respectively. 
+- The last dense layer uses sigmoid activation to get an output value between 0 and 1.The output is interpreted as the predicted confidence of hotspot in that area for the fifth week into the future, from the most recent historical data timestep.
+
+
 ## My progress
+
+### Monday, April 10th
+
+I succeeded in downloading the new dataset: 10km x 10km images at 60m resolution across all 12 bands. I also started assembling the new model I will train, following the architecture of Yang et al., with the major exception that my first convolutional layer will take the images themselves (rather than their histograms) as its input.
+
+### Monday, April 4th
+
+I decided that my negative dataset will consist of data points sampled from the exact distribution of (Timestamp, WFPI) pairs, at random locations in the continental US that satisfy this constraint. I finally succeeded in downloading my dataset, which consisted of 200x200x7 images (bands 2,3,4,8,8A,11,and12) across the 20kmx20km region around the sample point's locations). However, initial results were extremely discouraging; trying a few basic CNN architectures, I was not satisfied with the performance, which was in the range of 55-65%, very poor for a binary classifier.
+
+I returned to the literature and found a pre-print from AAAI-21, [Yang et al.](https://arxiv.org/abs/2101.01975) that takes on a very similar task, but uses an LSTM over historic data. The paper finds that 3 months of LANDSAT data is sufficient for predicting whether a 8km x 8km area will contain a hotspot. However, interestingly, the model does not use the satellite images themselves, but rather histograms of their values in each band.  I wonder why the authors chose to do this, because I do think that using the images themselves would preserve spatial relationships in the data. I'm going to work on downloading historic data for 3 months or so preceding the fire, then try something like their LSTM approach, but performing convolution directly on the images.
+
+The other main issue that I'm running into is that, because there aren't other models that have attempted this idea of sampling negative training points from the same (Timestamp, WFPI) distribution of the positive datapoints, it's very difficult to compare to existing model performance. I'm going to sample negative points in the new dataset from only the same Timestamp distribution to match the standard procedure.
+
 
 ### Monday, March 21th
 
