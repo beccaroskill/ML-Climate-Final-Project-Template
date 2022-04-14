@@ -19,6 +19,10 @@ The model:
 
 ## My progress
 
+### Wednesday, April 13th
+
+The model architecture I mentioned in my last journal entry has not been yielding results, so I implemented versions of the two models I am attempting to triangulate between.
+
 ### Monday, April 10th
 
 I succeeded in downloading the new dataset: 10km x 10km images at 60m resolution across all 12 bands. I also started assembling the new model I will train, following the architecture of Yang et al., with the major exception that my first convolutional layer will take the images themselves (rather than their histograms) as its input.
